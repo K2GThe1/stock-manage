@@ -1,0 +1,36 @@
+<div class="nav">
+    <a routerLink="/users/novo" class="btn btn-primary">Novo</a>
+    
+</div>
+<br>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>E-email</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of resource.data">
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>                    
+                <a [routerLink]="['/users', user.id]">
+                    <button class="btn btn-warning" type="button"><i class="icon-pencil"></i></button>
+                </a>
+                <button class="btn btn-danger" (click)="showSuccess()"><i class="icon-trash"></i></button>
+                
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" (click)="previous()">Previous</a></li>
+        
+        <li class="page-item"><a class="page-link" (click)="next()">Next</a></li>
+    </ul>
+</nav>

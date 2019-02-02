@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, ControlContainer, FormsModule } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -25,6 +25,10 @@ import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './users/users.component';
 import { UsersService } from './users.service';
 import { TokenInterceptor } from './token-interceptor';
+import { RestApiService } from 'src/services/rest-api.service';
+import { StorageServiceModule } from 'angular-webstorage-service';
+import { LocalStorageService } from 'src/services/localStorage.service';
+import { AdminHeaderComponent } from './app-admin-header/admin-header';
 
 @NgModule({
   imports: [
@@ -34,7 +38,9 @@ import { TokenInterceptor } from './token-interceptor';
     HttpClientModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    StorageServiceModule,
+    FormsModule
   ],
   declarations: [
     AppComponent,
@@ -44,9 +50,10 @@ import { TokenInterceptor } from './token-interceptor';
     SIDEBAR_TOGGLE_DIRECTIVES,
     AsideToggleDirective,
     LoginComponent,
-    UsersComponent
+    UsersComponent,
+    AdminHeaderComponent
   ],
-  providers: [AuthGuard, AuthService, UsersService, {
+  providers: [AuthGuard, RestApiService, LocalStorageService, UsersService, {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true

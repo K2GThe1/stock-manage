@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { RestApiService } from 'src/services/rest-api.service';
+import { LocalStorageService } from 'src/services/localStorage.service';
 
 @Component({
   selector: 'app-login',
@@ -14,9 +16,11 @@ export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
 
   constructor(
-    private auth: AuthService,
+    private route: ActivatedRoute,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private restApiService: RestApiService,
+    private session: LocalStorageService
   ) { }
 
   ngOnInit() {
@@ -27,9 +31,32 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.auth.login(this.loginForm.value, error => {
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+    /*this.auth.login(this.loginForm.value, error => {
       this.error = error;
     });
+    this.restApiService.login(this.loginForm.value, error => {
+      this.error = error;
+    });*/
+
+    this.restApiService.login(this.loginForm.value).subscribe(
+      (result) => {
+        console.log('result:', result);
+        let link = 'login';
+
+        if (result['returnCode'] === 'successful login') {
+          this.session.newUserSession('accessToken', 'Kjkh2GTheknkjbkjbkjbkjbk');
+          this.session.setData('user', result['user']);
+          link = 'products';
+          this.router.navigateByUrl(returnUrl);
+        }
+        // this.router.navigate([link]);
+      }, (error) => {
+        console.log(error.message);
+        this.error = error.message;
+    });
+
   }
 
   fechar() {

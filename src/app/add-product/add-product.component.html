@@ -1,0 +1,46 @@
+<p></p>
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading"> Add Product</div>
+    <div class="panel-body">
+         
+        <!-- send data to controller throw property Binding -->
+        <!--div class="form-group">
+          <label class="control-label" for="input_message">Message:</label>
+          <input id="input_message" type="text" [(ngModel)]="comment.message" />
+          <button [disabled]="!comment.message" class="btn btn-primary" (click)="addComment()">Add Comment</button>
+        </div-->
+
+        <!-- use form to send data to controller-->
+        <form [formGroup]="addPdtForm" (ngSubmit)="addProduct()">
+          <div class="card p-4">
+            <div class="card-body">
+                  <h1>Login</h1>
+                  <p class="text-muted">New Product</p>
+
+                  <div class="alert alert-danger" role="alert" *ngIf="error">
+                      {{ error }}
+                  </div>
+
+                  <div class="form-group">
+                      <label class="control-label" for="input_name_product">name:</label>
+                      <input id="input_name_product" required="" name="name" 
+                              type="text" formControlName="name" />
+                      
+                      <label class="control-label" for="input_entryPrice_product">entry price:</label>
+                      <input id="input_entryPrice_product" required="" name="entryPrice" 
+                             type="text" formControlName="entryPrice" />
+
+                      <label class="control-label" for="input_sellPrice_product">entry price:</label>
+                      <input id="input_sellPrice_product" required="" name="sellPrice" 
+                            type="text" formControlName="sellPrice" />
+                            
+                      <button class="btn btn-primary" type="submit">Add Comment</button>
+                  </div>
+              </div>
+            </div>  
+        </form>
+          
+    </div>
+  </div>
+</div>

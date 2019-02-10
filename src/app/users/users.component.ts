@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../users.service';
+import { User } from '../model.class';
+import { RestApiService } from 'src/services/rest-api.service';
 
 @Component({
   selector: 'app-users',
@@ -8,42 +10,44 @@ import { UsersService } from '../users.service';
 })
 export class UsersComponent implements OnInit {
 
-  resource: any;
+  users: User[];
   page: any;
 
-  constructor(private service: UsersService) {
-    this.resource = {};
+  constructor(private restApi: RestApiService) {
     this.page = 1;
-    this.resource = service.getAll()
+    /*this.users = service.getAll()
       .subscribe((data: any) => {
         this.resource = data;
         this.page = data.current_page;
       }, error => {
 
+      });*/
+      restApi.getUsers().then(datas => {
+        this.users = datas;
       });
    }
 
   ngOnInit() {
-    
+
   }
 
   onDelete(user) {
     if (confirm(`Dejesa excluir o usuÃ¡rio: ${user.name}?`)) {
-      
-      this.service.delete(user)
+
+      /*this.service.delete(user)
         .subscribe(response => {
           const index = this.resource.data.indexOf(user);
           this.resource.data.splice(index, 1);
-        });
-      
+        });*/
+
     }
   }
 
   onPageChange() {
-    this.resource = this.service.getAll(2)
+    /*this.resource = this.service.getAll(2)
       .subscribe((data: any) => {
         this.resource = data;
-        console.log(data)
-      }, error => {});
+        console.log(data);
+      }, error => {});*/
   }
 }

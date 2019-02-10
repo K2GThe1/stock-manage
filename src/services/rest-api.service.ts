@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpEvent, HttpRequest, HttpEventType } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError, map, last} from 'rxjs/operators';
-import { Product } from 'src/app/model.class';
+import { Product, User } from 'src/app/model.class';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
@@ -108,10 +108,14 @@ export class RestApiService {
            });
   }
 
-  public addProduct(product: Product) {
+  public addProduct(product: Product, onError): Promise<Product> {
     return this.httpClient.post(apiUrl + 'addProduct', product, httpOptions)
-    .pipe(catchError(this.handleError)
-    );
+    .pipe( map( response => {
+        const result = new Product(response);
+        return result;
+    }),
+      catchError(this.handleError)
+    ).toPromise();
   }
 
   public getProducts(): Promise<Product[]> {
@@ -183,21 +187,35 @@ export class RestApiService {
 
   /** Return distinct message for sent, upload progress, & response events */
     private getEventMessage(event: HttpEvent<any>, file: File) {
-    switch (event.type) {
-      case HttpEventType.Sent:
-        return 'Uploading file "${file.name}" of size ${file.size}.';
+      switch (event.type) {
+        case HttpEventType.Sent:
+          return 'Uploading file "${file.name}" of size ${file.size}.';
 
-        case HttpEventType.UploadProgress:
-        // Compute and show the % done:
-        const percentDone = Math.round(100 * event.loaded / event.total);
-        return `File "${file.name}" is ${percentDone}% uploaded.`;
+          case HttpEventType.UploadProgress:
+          // Compute and show the % done:
+          const percentDone = Math.round(100 * event.loaded / event.total);
+          return `File "${file.name}" is ${percentDone}% uploaded.`;
 
-      case HttpEventType.Response:
-        return `File "${file.name}" was completely uploaded!`;
+        case HttpEventType.Response:
+          return `File "${file.name}" was completely uploaded!`;
 
-      default:
-        return `File "${file.name}" surprising upload event: ${event.type}.`;
-    }
+        default:
+          return `File "${file.name}" surprising upload event: ${event.type}.`;
+      }
+  }
+
+  public getUsers(): Promise<User[]> {
+
+    return this.httpClient
+            .get(apiUrl + 'users/', httpOptions)
+            .pipe(map (response => {
+              const array = response['content'] as any[];
+              const products = array.map(data => new User(data));
+              console.log('users: ', products);
+              return products;
+            }),
+            catchError(this.handleError)
+          ).toPromise();
   }
 
 }

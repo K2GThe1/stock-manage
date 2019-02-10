@@ -5,6 +5,8 @@ export class Product {
     public  date: Date;
     public  image: string;
     public  type: string;
+    public  entryPrice: number;
+    public  sellPrice: number;
     public stocks: Stock[];
 
     constructor(data: any) {
@@ -14,6 +16,7 @@ export class Product {
     get getDate(): Date {
         return new Date(this.date);
     }
+
 }
 
 export class User {
@@ -22,11 +25,10 @@ export class User {
     public password: string;
     public email: string;
 
-    constructor() {
-        this.name = '';
-        this.password = '';
-        this.email = '';
+    constructor(data: any) {
+        Object.assign(this, data);
     }
+
 }
 
 export class Stock {

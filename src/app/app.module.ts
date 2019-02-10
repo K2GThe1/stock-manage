@@ -16,6 +16,10 @@ import { SIDEBAR_TOGGLE_DIRECTIVES } from './shared/sidebar.directive';
 import { AsideToggleDirective } from './shared/aside.directive';
 import { BreadcrumbsComponent } from './shared/breadcrumb.component';
 
+import { MatCardModule, MatToolbarModule, MatToolbar, MatButtonModule, MatButton , MatMenuModule } from '@angular/material';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 // Routing Module
 import { AppRoutingModule } from './app.routing';
 
@@ -29,6 +33,9 @@ import { RestApiService } from 'src/services/rest-api.service';
 import { StorageServiceModule } from 'angular-webstorage-service';
 import { LocalStorageService } from 'src/services/localStorage.service';
 import { AdminHeaderComponent } from './app-admin-header/admin-header';
+import { StocksComponent } from './stocks/stocks.component';
+import { ProductComponent } from './product/product.component';
+import { AddProductComponent } from './add-product/add-product.component';
 
 @NgModule({
   imports: [
@@ -40,7 +47,13 @@ import { AdminHeaderComponent } from './app-admin-header/admin-header';
     TabsModule.forRoot(),
     ChartsModule,
     StorageServiceModule,
-    FormsModule
+    FormsModule,
+    MatCardModule, MatToolbarModule, MatButtonModule, MatMenuModule,
+    BrowserAnimationsModule
+  ],
+  exports: [
+    BrowserModule,
+    MatCardModule, MatToolbarModule, MatButtonModule, MatMenuModule
   ],
   declarations: [
     AppComponent,
@@ -51,7 +64,10 @@ import { AdminHeaderComponent } from './app-admin-header/admin-header';
     AsideToggleDirective,
     LoginComponent,
     UsersComponent,
-    AdminHeaderComponent
+    AdminHeaderComponent,
+    StocksComponent,
+    ProductComponent,
+    AddProductComponent
   ],
   providers: [AuthGuard, RestApiService, LocalStorageService, UsersService, {
     provide: HTTP_INTERCEPTORS,

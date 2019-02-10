@@ -16,10 +16,12 @@
     </div>
 
     <div *ngIf="currentFileUpload" class="progress">
-        <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
+        <div class="progress-bar progress-bar-info progress-bar-striped" 
+                role="progressbar" attr.aria-valuenow="{{progress.percentage}}"
           aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width:progress.percentage+'%'}">
-          {{progress.percentage}}%</div>
-      </div>
+          {{progress.percentage}}%
+        </div>
+    </div>
        
       <label class="btn btn-default">
         <input type="file" (change)="selectFile($event)">
@@ -28,3 +30,157 @@
       <button class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Upload</button>
 
 </div>
+
+
+<div id="content" #content>
+  <div>
+    <div class="alert alert-info">
+        <strong> Fiche D'inventaire Journalière</strong>
+    </div>
+    <div>
+      <input type="button" value="CPTURE" (click)="captureScreen()"/>
+    </div>
+</div>
+</div>
+<div >
+    <div>
+        <table id="convert" style='width:980px;'>
+            <tr>
+                <td style='padding-top: 5px;'>
+                    <table >
+                        <tr>
+                            
+                            <td>
+                                <div style="padding-right: 10px;">
+                                    <h4 class="card-title" style="margin-left:5px; margin-top: 2px;">
+                                        <strong style='margin-left: 15px;'> Manage Stock </strong>, Sigle Definition
+                                    </h4>
+                                    <div style='margin-left: 15px;'>
+                                        <strong>PU_e: </strong>Prix unitaire à l'entrée en stock,
+                                        <strong>PU_s: </strong>Prix unitaire de sortie en stock,
+                                        <strong>SI: </strong>stock initial,
+                                        <strong>APPRO: </strong>Approvisionement, <br/>
+                                        <strong>SIT: </strong>Stock Total après Approvisionement, stock avant vente, 
+                                        <strong>SFT: </strong>Stock Physique, stock apres vente (inventaire physique),
+                                        <strong>SV: </strong>Sorties, quantité sortie(SV)
+                                        
+                                    </div>
+                                </div>
+                            </td>
+                            <!--td>
+                                <a href='https://www.linkedin.com/in/gael-kamga-18279a106/'>
+                                    <img src='assets/img/admin-logo.png' />
+                                </a>
+                            </td-->
+                        </tr>
+                        
+                    </table>
+                </td>
+                
+            </tr>
+
+            <tr>
+                <td style='padding: 0px 8px 8px;'>
+                    <div style='font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(0, 0, 0);'>
+                       
+                        <br/>
+                        <br/>
+                        <div style='margin: 10px 15px; float: left;'> 
+                            Télécharger Votre Fiche inventaire physique Journalière
+                            <a href='#' target='_blank'>manage Stock</a>
+                            NOM: ......................................................
+                            DATE:  _ _/_ _ / 20__ 
+                        </div>
+                        <br />
+                        <br />
+                        <table width='100%' style='width:100%; background-color: aliceblue;' 
+                                            align='center' border='0' class="table table-bordered">
+                            
+                            <thead>
+                                <tr style="height: 10px;" >
+                                    <th style='width:7%;' scope="col" rowspan="2">
+                                      <strong>Produits</strong>
+                                    </th>
+                                    <th style='width:2%;' scope="col" colspan="2">
+                                        <strong>Pix Unitaire</strong>
+                                    </th>
+                                    
+                                    <th style='width:2%;' scope="col" colspan="2">
+                                        <strong>Stock</strong>
+                                    </th>
+                                    <th style='width:2%;' scope="col" rowspan="2">
+                                        <strong>SIT</strong>
+                                    </th>
+                                    <th style='width:2%;' scope="col" rowspan="2">
+                                        <strong>SFT</strong>
+                                    </th>
+                                    <th style='width:2%;' scope="col" rowspan="2">
+                                        <strong>SV</strong>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th >
+                                        <strong>PU_e</strong>
+                                    </th>
+                                    <th >
+                                        <strong>PU_s</strong>
+                                    </th>
+                                    <th >
+                                        <strong>SI</strong>
+                                    </th>
+                                    <th >
+                                        <strong>Appro</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngFor="let pdt of products" style="height: 10px;" >
+                                    <th style='width:7%;' scope="row" >
+                                        <strong>{{pdt.name}}</strong>
+                                    </th>
+                                    <th scope="row" >
+                                        <strong>{{pdt.entryPrice}}</strong>
+                                    </th>
+                                    <th scope="row" >
+                                        <strong>{{pdt.sellPrice}}</strong>
+                                    </th>
+                                    <th scope="row" >
+                                        <strong></strong>
+                                    </th>
+                                    <th scope="row" >
+                                        <strong></strong>
+                                    </th>
+                                    <th scope="row" >
+                                        <strong></strong>
+                                    </th>
+                                    <th scope="row" >
+                                        <strong></strong>
+                                    </th>
+                                    <th scope="row" >
+                                        <strong></strong>
+                                    </th> 
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br />
+                        <br />
+                        <table width='100%' cellspacing='0' cellpadding='2' align='center' border='0' style='width:100%;'>
+                           
+                        </table>
+                    </div>   
+                </td>
+                
+            </tr>
+            
+            <tr>
+                <td style='font-family: Arial,Helvetica,sans-serif; font-size: 12px; padding: 20px 8px 8px;'></td>
+            </tr>
+
+        </table>
+          <br/>
+          <br/>
+    </div>
+   
+</div>
+

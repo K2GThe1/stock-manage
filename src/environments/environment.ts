@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8081/'
+  apiUrl: 'http://ramat-services.com:8087/'
 };
 
 /*

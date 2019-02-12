@@ -30,11 +30,6 @@ export const httpOptions = {
   })
 };
 
-const apiUrl = 'http://localhost:8081/';
-
-// const apiUrl = 'http://localhost:3000/';
-// const apiUrl="http://edjangui.com:3000";
-
 @Injectable({
   providedIn: 'root'
 })
@@ -71,7 +66,8 @@ export class RestApiService {
    public login(loginRequestData: { email: string, password: string} ): Observable<any> {
     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
-    return this.httpClient.post(apiUrl + 'sign-in/', loginRequestData, httpOptions);
+    return this.httpClient.post(environment.apiUrl + 'sign-in/', loginRequestData, httpOptions);
+
    }
 
    /**
@@ -100,7 +96,7 @@ export class RestApiService {
    */
   public login_(loginRequestData) {
 
-    this.httpClient.post(apiUrl + 'login/', loginRequestData, httpOptions)
+    this.httpClient.post(environment.apiUrl + 'login/', loginRequestData, httpOptions)
            .subscribe(data => {
               console.log(data);
            }, (error) => {
@@ -109,7 +105,7 @@ export class RestApiService {
   }
 
   public addProduct(product: Product, onError): Promise<Product> {
-    return this.httpClient.post(apiUrl + 'addProduct', product, httpOptions)
+    return this.httpClient.post(environment.apiUrl + 'addProduct', product, httpOptions)
     .pipe( map( response => {
         const result = new Product(response);
         return result;
@@ -118,12 +114,14 @@ export class RestApiService {
     ).toPromise();
   }
 
-  public getProducts(): Promise<Product[]> {
+  /** */
+  public getProducts(page = 0, size = 5, pageInfos): Promise<Product[]> {
 
     return this.httpClient
-            .get(apiUrl + 'products/', httpOptions)
+            .get(environment.apiUrl + 'products/?page=' + page + '&size=' + size, httpOptions)
             .pipe(map (response => {
-              const array = response as any[];
+              pageInfos.totalPage = response['totalPages'];
+              const array =  response['content'] as any[];
               const products = array.map(data => new Product(data));
               console.log('products: ', products);
               return products;
@@ -135,7 +133,7 @@ export class RestApiService {
   getFiles(): Promise<String[]> {
     console.log(' getAllFiles: ');
     return this.httpClient
-          .post(apiUrl + 'getAllFiles/', httpOptions)
+          .post(environment.apiUrl + 'getAllFiles/', httpOptions)
           .pipe( map(response => {
               const array = response as string[];
               return array;
@@ -207,7 +205,7 @@ export class RestApiService {
   public getUsers(): Promise<User[]> {
 
     return this.httpClient
-            .get(apiUrl + 'users/', httpOptions)
+            .get(environment.apiUrl + 'users/', httpOptions)
             .pipe(map (response => {
               const array = response['content'] as any[];
               const products = array.map(data => new User(data));

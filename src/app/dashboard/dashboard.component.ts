@@ -9,6 +9,8 @@ import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 import { Product } from '../model.class';
 
+export let sizePerPage = 0;
+
 @Component({
   templateUrl: 'dashboard.component.html'
 })
@@ -21,12 +23,17 @@ export class DashboardComponent implements OnInit {
   currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 };
   products: Product[];
+  page = 0;
+  pageInfos = {
+    totalPage: 0
+  };
 
   @ViewChild('content') content: ElementRef;
   constructor(private uploadService: RestApiService) {
-   uploadService.getProducts().then( results => {
-    this.products = results;
-   });
+    uploadService.getProducts(this.page, sizePerPage, this.pageInfos).then(
+      results => {
+        this.products = results;
+      });
   }
 
   public captureScreen() {
